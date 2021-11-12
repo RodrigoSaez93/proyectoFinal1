@@ -16,6 +16,16 @@
   "author": "Rodrigo Saez <rodrigosaez93@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "hbs": "^4.1.2",
+    "log4js": "^6.3.0",
+    "mongoose": "^6.0.12",
+    "multer": "^1.4.3",
+    "nodemailer": "^6.7.0",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "twilio": "^3.71.1"
   }
 }

@@ -1,14 +1,9 @@
-const productos =[ ]
+const PersistenciaProductos=require("../persistencia/productos")
 
-const PersistenaciaProductos=require("../persistencia/productos")
-let id = 0;
-
-class productoss {
-    static getProductos() {
-        return productos;
-    }
-    
-    listar(req, res) {
+class ProductoCtrl {
+     
+    async listar(req, res) {
+        const productos = await PersistenciaProductos.listar()
         if (productos.length === 0) {
             res.status(500).json({ error: "No hay productos cargados" });
         }
@@ -17,8 +12,8 @@ class productoss {
         }
     }
 
-    listarPorId(req, res) {
-        const producto = productos.find(prod => prod.id == req.params.id);
+    async listarPorId(req, res) {
+        const producto = PersistenciaProductos.buscar(req.params.id)
         if (producto != null) {
             res.json(producto);
         }
@@ -27,29 +22,18 @@ class productoss {
         }
     }
 
-    insertar(req, res) {
+    async insertar(req, res) {
         const producto = req.body;
-        let time =Date.now()
-        producto.id = ++id;
         producto.time=time
-
-          const persistenaciaProductos= new PersistenaciaProductos()
-        persistenaciaProductos.guardar(producto)
-
-
-        productos.push(producto);
-        
-
+        PersistenciaProductos.insertar(producto)        
         res.json(producto);
     }
 
     actualizar(req, res) {
-        const productoEnLista = productos.find(prod => prod.id == req.params.id);
-        if(productoEnLista != null) 
+        const productoEnLista = PersistenciaProductos.buscar(req.params.id);
+         if(productoEnLista != null) 
         {
-            const index = productos.indexOf(productoEnLista);        
-            req.body.id = req.params.id;
-            productos[index] = req.body; 
+            PersistenciaProductos.actualizar(req.body)
             res.json(req.body);
         }
         else {
@@ -69,4 +53,4 @@ class productoss {
     }
 }
 
-module.exports = productoss;
+module.exports = ProductoCtrl;
